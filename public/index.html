@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>enote</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!--
+    1. create an account
+    2. graph with number of users per day
+    3. top 5 of the most important users
+
+    1. create important notes
+    2. set grade of importance and sort
+    3. create events and set date and time
+    4. set "done" for solved tasks and events
+    5. set event location
+ -->
+  <header>
+    <div class="login-modal">
+      <div class="login-modal-content">
+        <form class="" action="enoteAPI.php" method="post">
+          <div class="login-modal-content-header">
+            <div class="title">
+              Log In
+            </div>
+            <div class="close-btn">
+              &times;
+            </div>
+          </div>
+          <div class="login-modal-content-main">
+            <input type="text" name="username" value="" placeholder="username" autocomplete="nickname">
+            <input type="password" name="password" value="" placeholder="password" autocomplete="current-password">
+          </div>
+          <div class="login-modal-content-footer">
+            <div class="info-box"></div>
+            <input class="black-btn" type="button" name="submit-login" value="Log In">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="signup-modal">
+      <div class="signup-modal-content">
+        <form class="" action="enoteAPI.php" method="post">
+          <div class="signup-modal-content-header">
+            <div class="title">
+              Create account
+            </div>
+            <div class="close-btn">
+              &times;
+            </div>
+          </div>
+          <div class="signup-modal-content-main">
+            <input type="text" name="new-username" value="" placeholder="username" autocomplete="nickname">
+            <input type="email" name="new-email" value="" placeholder="your email" autocomplete="email">
+            <input type="password" name="new-password" value="" placeholder="password" autocomplete="new-password">
+            <input type="password" name="new-password-confirmation" value="" placeholder="repeat password" autocomplete="new-password">
+          </div>
+          <div class="signup-modal-content-footer">
+            <div class="info-box"></div>
+            <input class="black-btn" type="button" name="submit-signup" value="Create">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="space-between">
+        <div class="logo" onclick="document.location.reload()">
+          <span class="logo-e">e</span><span class="logo-note">note</span>
+        </div>
+        <div class="menu">
+          <div class="slide-back-btn">
+            <div class="back-icon"></div>
+          </div>
+
+          <div class="account space-between">
+            <div class="user-block">
+              <div class="dropdown">
+                <div class="photo">
+                  <i class="fas fa-user-alt"></i>
+                </div>
+                <div class="current-username">
+                  <span></span><span class="angle-down"></span>
+                </div>
+                <div class="dropdown-menu">
+                  <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>1</li>
+                    <li>
+                      <div class="dropdown-option logout-btn">
+                        Log Out
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="authentication space-between">
+            <div class="login-btn">
+              <span>Log In</span>
+            </div>
+            <div class="signup-btn black-btn">
+              <span>Sign Up</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-triger">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container start-page-holder">
+      <div class="start-page">
+        <h1>We keep your notes</h1>
+        <p class="instruction">
+          To use our service, please, log in to your account, or create a new one.
+        </p>
+
+        <div class="users-per-day">
+          <h3>Number of users per day</h3>
+          <div class="chart">
+            Here is going to be a chart
+          </div>
+        </div>
+
+        <div class="top-users">
+          <h3>Our top users</h3>
+          <div class="users-list">
+            <div class="user">
+              <div class="username">
+                Zelenskyi
+              </div>
+              <div class="rating">
+                5359
+              </div>
+            </div>
+            <div class="user">
+              <div class="username">
+                Tamaev
+              </div>
+              <div class="rating">
+                1223
+              </div>
+            </div>
+            <div class="user">
+              <div class="username">
+                Tropical
+              </div>
+              <div class="rating">
+                897
+              </div>
+            </div>
+            <div class="user">
+              <div class="username">
+                Overlord
+              </div>
+              <div class="rating">
+                735
+              </div>
+            </div>
+            <div class="user">
+              <div class="username">
+                The King
+              </div>
+              <div class="rating">
+                491
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="our-location">
+          <h3>Our location</h3>
+          <div class="map">
+            Map is going to be here
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container calendar-holder">
+    </div>
+  </main>
+
+  <div class="loader">
+    <span class="logo-e">e</span>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+
+</html>
