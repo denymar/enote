@@ -39,7 +39,7 @@ ORM::configure('password', 'secret');
 //       'event VARCHAR(200),' .
 //       'place VARCHAR(200),' .
 //       'eYear INT,' .
-//       'eMonth VARCHAR(3),' .
+//       'eMonth INT,' .
 //       'eDate INT,' .
 //       'eHour INT,' .
 //       'eMinute INT,' .
@@ -50,6 +50,18 @@ ORM::configure('password', 'secret');
 // create_event("admin", "Don't forget to go to school", "place1", 2019, "APR", 19, "17", "00");
 // create_event("adaadad", "Don't forget to go to school", "place2",2019, "APR", 19, "17", "00");
 // create_event("admin", "Don't forget to sent part2 for PW", "place3",2019, "APR", 21, "23", "59");
+
+// ORM::get_db()->exec("DROP TABLE IF EXISTS logs;");
+// ORM::get_db()->exec(
+//   'CREATE TABLE logs (' .
+//       'id INT PRIMARY KEY AUTO_INCREMENT,' .
+//       'username_fk VARCHAR(50) NOT NULL,' .
+//       'year INT,' .
+//       'month INT,' .
+//       'day INT,' .
+//       'FOREIGN KEY (username_fk) REFERENCES users(username),' .
+//       'UNIQUE KEY id (id))'
+// );
 
 function create_user($username, $password, $email) {
   $response = array(
@@ -100,6 +112,38 @@ function create_event($username, $event, $ePlace, $eYear, $eMonth, $eDate, $eHou
   return $response;
 }
 
+function create_log($username, $year, $month, $day) {
+  $response = array(
+    'status' => 'success',
+    'message' => ''
+  );
+
+  $searchLog = ORM::for_table('logs')
+    ->where_any_is(array(
+      array(
+        'username_fk' => $username,
+        'year' => $year,
+        'month' => $month,
+        'day' => $day
+      )
+    ))
+    ->find_one();
+
+  if ($searchLog == null) {
+    $log = ORM::for_table('logs')->create();
+    $log->username_fk = $username;
+    $log->year = $year;
+    $log->month = $month;
+    $log->day = $day;
+    $log->save();
+    $response['message'] = 'Log has been added.';
+  } else {
+    $response['message'] = 'Log exists.';
+  }
+
+  return $response;
+}
+
 function username_exists($username) {
   $u = ORM::for_table('users')->where('username', $username)->find_one();
   if ($u != null) {
@@ -142,7 +186,7 @@ function login_user($username, $password) {
 }
 
 if (isset($_POST['submit-login'])) {
-  sleep(2);
+  // sleep(2);
   $u = $_POST['username'];
   $p = $_POST['password'];
   $response = login_user($u, $p);
@@ -153,7 +197,7 @@ if (isset($_POST['submit-login'])) {
 }
 
 if (isset($_POST['submit-signup'])) {
-  sleep(2);
+  // sleep(2);
   $u = $_POST['username'];
   $e = $_POST['email'];
   $p = $_POST['password'];
@@ -189,7 +233,7 @@ if (isset($_POST['logout-pressed'])) {
 }
 
 if (isset($_POST['save-new-event'])) {
-  sleep(2);
+  // sleep(2);
   $response = array(
     'status' => 'success',
     'message' => ''
@@ -221,7 +265,7 @@ if (isset($_POST['save-new-event'])) {
 }
 
 if (isset($_POST['request-db'])) {
-  sleep(2);
+  // sleep(2);
   $response = array(
     'status' => 'success',
     'message' => ''
@@ -244,6 +288,80 @@ if (isset($_POST['request-db'])) {
   }
 
   echo json_encode($response);
+}
+
+if (isset($_POST['add-log'])) {
+  create_log(
+    $_POST['username'],
+    $_POST['year'],
+    $_POST['month'],
+    $_POST['day']
+  );
+}
+
+if (isset($_POST['load-logs'])) {
+  $response = array(
+    'status' => 'success',
+    'message' => ''
+  );
+
+  $dates = $_POST['dates'];
+  $ratings = array();
+
+  foreach ($dates as $date) {
+    $nrUsers = ORM::for_table('logs')
+    ->where(array(
+      'year' => $date['year'],
+      'month' => $date['month'],
+      'day' => $date['day']
+    ))
+    ->count();
+
+    $ratings[] = array(
+      'year' => $date['year'],
+      'month' => $date['month'],
+      'day' => $date['day'],
+      'nrUsers' => $nrUsers
+    );
+  }
+
+  $response['message'] = 'Logs are loaded.';
+  $response['ratings'] = $ratings;
+
+  echo json_encode($response);
+}
+
+if (isset($_POST['load-top-users'])) {
+  $response = array(
+    'status' => 'success',
+    'message' => ''
+  );
+
+  ORM::raw_execute('SELECT users.username as username, COUNT(events.username_fk) as posts
+                                FROM events
+                                INNER JOIN users ON users.username=events.username_fk
+                                GROUP BY users.username');
+
+  $statement = ORM::get_last_statement();
+  $topUsers = array();
+  $rows = array();
+  while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+      $topUsers[] = array(
+        'username' => $row['username'],
+        'posts' => $row['posts']
+      );
+  }
+
+  usort($topUsers, 'cmp');
+
+  $response['message'] = 'Top of users is loaded.';
+  $response['topUsers'] = $topUsers;
+
+  echo json_encode($response);
+}
+
+function cmp($a, $b) {
+  return $b['posts'] - $a['posts'];
 }
 
 ?>

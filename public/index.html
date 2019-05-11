@@ -32,7 +32,8 @@
         <form class="" action="enoteAPI.php" method="post">
           <div class="login-modal-content-header">
             <div class="title">
-              Log In
+              <span class="en">Log In</span>
+              <span class="ro">Logare</span>
             </div>
             <div class="close-btn">
               &times;
@@ -44,7 +45,10 @@
           </div>
           <div class="login-modal-content-footer">
             <div class="info-box"></div>
-            <input class="black-btn" type="button" name="submit-login" value="Log In">
+            <button class="black-btn" type="button" name="submit-login">
+              <span class="en">Log In</span>
+              <span class="ro">Logare</span>
+            </button>
           </div>
         </form>
       </div>
@@ -55,7 +59,8 @@
         <form class="" action="enoteAPI.php" method="post">
           <div class="signup-modal-content-header">
             <div class="title">
-              Create account
+              <span class="en">Create account</span>
+              <span class="ro">Creare cont</span>
             </div>
             <div class="close-btn">
               &times;
@@ -63,13 +68,16 @@
           </div>
           <div class="signup-modal-content-main">
             <input type="text" name="new-username" value="" placeholder="username" autocomplete="nickname">
-            <input type="email" name="new-email" value="" placeholder="your email" autocomplete="email">
+            <input type="email" name="new-email" value="" placeholder="email" autocomplete="email">
             <input type="password" name="new-password" value="" placeholder="password" autocomplete="new-password">
             <input type="password" name="new-password-confirmation" value="" placeholder="repeat password" autocomplete="new-password">
           </div>
           <div class="signup-modal-content-footer">
             <div class="info-box"></div>
-            <input class="black-btn" type="button" name="submit-signup" value="Create">
+            <button class="black-btn" type="button" name="submit-signup">
+              <span class="en">Create</span>
+              <span class="ro">Creare</span>
+            </button>
           </div>
         </form>
       </div>
@@ -103,7 +111,8 @@
                     <li>1</li>
                     <li>
                       <div class="dropdown-option logout-btn">
-                        Log Out
+                        <span class="en">Log Out</span>
+                        <span class="ro">Delogare</span>
                       </div>
                     </li>
                   </ul>
@@ -114,10 +123,12 @@
 
           <div class="authentication space-between">
             <div class="login-btn">
-              <span>Log In</span>
+              <span class="en">Log In</span>
+              <span class="ro">Logare</span>
             </div>
             <div class="signup-btn black-btn">
-              <span>Sign Up</span>
+              <span class="en">Sign Up</span>
+              <span class="ro">Inscrie-te</span>
             </div>
           </div>
         </div>
@@ -133,68 +144,44 @@
   <main>
     <div class="container start-page-holder">
       <div class="start-page">
-        <h1>We keep your notes</h1>
+        <h1>
+          <span class="en">We keep your notes</span>
+          <span class="ro">Noi păstrăm notițele tale</span>
+        </h1>
         <p class="instruction">
-          To use our service, please, log in to your account, or create a new one.
+          <span class="en">To use our service, please, log in to your account, or create a new one.</span>
+          <span class="ro">Pentru a utiliza serviciul nostru, vă rugăm să vă conectați la contul dvs. sau să creați unul nou.</span>
         </p>
 
         <div class="users-per-day">
-          <h3>Number of users per day</h3>
+          <h3>
+            <span class="en">Number of users per day</span>
+            <span class="ro">Numărul de utilizatori pe zi</span>
+          </h3>
+          <div class="nr-chart-bars">
+            <span class="en">Chart bars </span>
+            <span class="ro">Bare de grafic </span>
+            <input type="number" value="5" min="1">
+          </div>
           <div class="chart">
-            Here is going to be a chart
           </div>
         </div>
 
         <div class="top-users">
-          <h3>Our top users</h3>
+          <h3>
+            <span class="en">Our top users</span>
+            <span class="ro">Top utilizatori</span>
+          </h3>
           <div class="users-list">
-            <div class="user">
-              <div class="username">
-                Zelenskyi
-              </div>
-              <div class="rating">
-                5359
-              </div>
-            </div>
-            <div class="user">
-              <div class="username">
-                Tamaev
-              </div>
-              <div class="rating">
-                1223
-              </div>
-            </div>
-            <div class="user">
-              <div class="username">
-                Tropical
-              </div>
-              <div class="rating">
-                897
-              </div>
-            </div>
-            <div class="user">
-              <div class="username">
-                Overlord
-              </div>
-              <div class="rating">
-                735
-              </div>
-            </div>
-            <div class="user">
-              <div class="username">
-                The King
-              </div>
-              <div class="rating">
-                491
-              </div>
-            </div>
           </div>
         </div>
 
         <div class="our-location">
-          <h3>Our location</h3>
-          <div class="map">
-            Map is going to be here
+          <h3>
+            <span class="en">Our location</span>
+            <span class="ro">Locația noastră</span>
+          </h3>
+          <div class="map" id="map">
           </div>
         </div>
       </div>
@@ -208,7 +195,22 @@
     <span class="logo-e">e</span>
   </div>
 
+  <div class="language-selector">
+    <div class="icon" title="change language">
+      <i class="fas fa-globe-americas"></i>
+    </div>
+    <div class="language select-english" onclick="setLanguage('english')">
+      EN
+    </div>
+    <div class="language select-romanian" onclick="setLanguage('romanian')">
+      RO
+    </div>
+  </div>
+
   <script src="scripts.js"></script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvWEegLh35NFAeJylGRAycAalD-oFe7nY&callback=initMap">
+    </script>
 </body>
 
 </html>
